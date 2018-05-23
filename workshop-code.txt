@@ -1,0 +1,53 @@
+Phase 3 - 1:
+
+      // key: "fdc3584ee4fbc65c78e41b8f671359e4",
+      // secret: "a87f1f4c21c8cb6ad1cd8797b77998f6b482a760fe2413185d916d2b54860363"
+
+Phase 3 - 2
+      this.web3Provider = window.web3.currentProvider;
+      this.ocean = await createOcean({
+        api: this.api,
+        web3Provider: this.web3Provider
+      });
+      window.web3.version.getNetwork((err, netId) => {
+        this.setState({
+          networkId: netId
+        });
+      });
+
+AND
+
+await this.ocean.marketData.tokenPairs();
+
+Phase 3 - 3
+        const text = "Buy or Sell --" + pair.baseToken.symbol + "-- with --" + pair.quoteToken.symbol + "--";
+
+Phase 4 - 1
+
+    let ticker = await this.props.ocean.marketData.ticker({
+      baseTokenAddress: this.props.pair.baseToken.address,
+      quoteTokenAddress: this.props.pair.quoteToken.address
+    });
+
+Phase 5 - 1
+
+    let data = {
+      baseTokenAddress: this.props.pair.baseToken.address,
+      quoteTokenAddress: this.props.pair.quoteToken.address,
+      side: this.state.side,
+      orderAmount: this.state.orderAmount,
+      feeOption: this.state.feeOption
+    };
+    try {
+      let result;
+      if (this.state.orderType === "market") {
+        result = this.props.ocean.trade.newMarketOrder(data);
+      } else if (this.state.orderType === "limit") {
+        data.price = this.state.price;
+        result = this.props.ocean.trade.newLimitOrder(data);
+      }
+      result = await result;
+      this.setState({ result });
+    } catch (e) {
+      console.log(e);
+    }
