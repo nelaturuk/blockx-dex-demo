@@ -23,6 +23,10 @@ export default class Ticker extends React.Component {
 
   async setTicker(pair) {
     // Phase 4 - 1
+    let ticker = await this.props.ocean.marketData.ticker({
+      baseTokenAddress: this.props.pair.baseToken.address,
+      quoteTokenAddress: this.props.pair.quoteToken.address
+    });
     this.setState({ticker})
   }
 

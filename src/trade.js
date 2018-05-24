@@ -39,6 +39,26 @@ export default class Trade extends React.Component {
 
   async submitOrder() {
     // Phase 5 - 1
+    let data = {
+      baseTokenAddress: this.props.pair.baseToken.address,
+      quoteTokenAddress: this.props.pair.quoteToken.address,
+      side: this.state.side,
+      orderAmount: this.state.orderAmount,
+      feeOption: this.state.feeOption
+    };
+    try {
+      let result;
+      if (this.state.orderType === "market") {
+        result = this.props.ocean.trade.newMarketOrder(data);
+      } else if (this.state.orderType === "limit") {
+        data.price = this.state.price;
+        result = this.props.ocean.trade.newLimitOrder(data);
+      }
+      result = await result;
+      this.setState({ result });
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   render() {
